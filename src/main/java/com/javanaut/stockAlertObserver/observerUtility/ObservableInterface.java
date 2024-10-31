@@ -1,9 +1,9 @@
 package com.javanaut.stockAlertObserver.observerUtility;
 
 public interface ObservableInterface {
-    void subscribe(ObservableInterface observableInterface);
+    void subscribe(ObserverInterface observerInterface);
 
-    void unsubscribe(ObservableInterface observableInterface);
+    void unsubscribe(ObserverInterface observerInterface);
 
     void notifyObserver();
 }
