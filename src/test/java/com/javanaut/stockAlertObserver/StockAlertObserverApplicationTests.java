@@ -1,4 +1,4 @@
-package com.javanaut.stock_alert_observer;
+package com.javanaut.stockAlertObserver;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

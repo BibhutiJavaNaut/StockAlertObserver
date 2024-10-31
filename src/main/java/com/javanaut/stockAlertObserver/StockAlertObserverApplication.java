@@ -1,4 +1,4 @@
-package com.javanaut.stock_alert_observer;
+package com.javanaut.stockAlertObserver;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
