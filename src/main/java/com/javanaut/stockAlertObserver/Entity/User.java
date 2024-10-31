@@ -1,10 +1,7 @@
 package com.javanaut.stockAlertObserver.Entity;
 
-import com.javanaut.stockAlertObserver.observerUtility.ObserverInterface;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.javanaut.stockAlertObserver.utility.observerUtility.ObserverInterface;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,6 +13,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Table(name = "Users")
 public class User implements ObserverInterface {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,4 +1,4 @@
-package com.javanaut.stockAlertObserver.observerUtility;
+package com.javanaut.stockAlertObserver.utility.observerUtility;
 
 public interface ObservableInterface {
     void subscribe(ObserverInterface observerInterface);

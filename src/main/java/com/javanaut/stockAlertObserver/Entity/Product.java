@@ -1,7 +1,7 @@
 package com.javanaut.stockAlertObserver.Entity;
 
-import com.javanaut.stockAlertObserver.observerUtility.ObservableInterface;
-import com.javanaut.stockAlertObserver.observerUtility.ObserverInterface;
+import com.javanaut.stockAlertObserver.utility.observerUtility.ObservableInterface;
+import com.javanaut.stockAlertObserver.utility.observerUtility.ObserverInterface;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -13,19 +13,22 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Table(name = "Products")
 public class Product implements ObservableInterface {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
     private Boolean isAvailable;
-    private Integer numberOfStock;
-    @ManyToOne(cascade = CascadeType.ALL)
-    private List<ObserverInterface> subscribers = new ArrayList<>();
+    private Integer stock;
+    @ManyToMany(cascade = CascadeType.ALL)
+    private List<User> subscribers = new ArrayList<>();
 
     @Override
     public void subscribe(ObserverInterface observerInterface) {
-        subscribers.add(observerInterface);
+        if(observerInterface instanceof User) {
+            subscribers.add((User)observerInterface);
+        }
     }
 
     @Override
