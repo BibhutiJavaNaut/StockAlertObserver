@@ -6,7 +6,9 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -22,7 +24,7 @@ public class Product implements ObservableInterface {
     private Boolean isAvailable;
     private Integer stock;
     @ManyToMany(cascade = CascadeType.ALL)
-    private List<User> subscribers = new ArrayList<>();
+    private Set<User> subscribers = new HashSet<>();
 
     @Override
     public void subscribe(ObserverInterface observerInterface) {

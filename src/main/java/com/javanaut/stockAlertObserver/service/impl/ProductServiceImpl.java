@@ -9,16 +9,28 @@ import com.javanaut.stockAlertObserver.exception.UserNotFoundException;
 import com.javanaut.stockAlertObserver.repository.ProductRepository;
 import com.javanaut.stockAlertObserver.repository.UserRepository;
 import com.javanaut.stockAlertObserver.service.ProductService;
+import com.javanaut.stockAlertObserver.utility.StaticMessages;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+
 @Service
 public class ProductServiceImpl implements ProductService {
 
+    @Autowired
     private final ProductRepository productRepository;
 
+    @Autowired
     private final UserRepository userRepository;
+
+    @Autowired
+    private GmailService gmailService;
 
     @Autowired
     public ProductServiceImpl(ProductRepository productRepository, UserRepository userRepository) {
@@ -47,9 +59,16 @@ public class ProductServiceImpl implements ProductService {
         product.setIsAvailable(productStockUpdateDto.getIsAvailable());
         product.setStock(productStockUpdateDto.getStock());
         Product savedProduct = productRepository.save(product);
-        if(shouldNotify){
-            product.notifyObserver();
+        if(!shouldNotify){
+            return savedProduct;
         }
+        ExecutorService executorService = Executors.newSingleThreadExecutor();
+        executorService.submit(() -> {
+            List<String> subscribers = product.getSubscribers().stream().map(User::getEmail).toList();
+            String mailSubject = String.format(StaticMessages.SUBSCRIBE_MAIL_SUBJECT, product.getName());
+            String mailBody = String.format(StaticMessages.SUBSCRIBE_MAIL_BODY, product.getName());
+            gmailService.sendMailToMultipleUser(subscribers, mailSubject, mailBody);
+        });
         return savedProduct;
     }
 }
